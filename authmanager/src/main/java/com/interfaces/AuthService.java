@@ -1,5 +1,7 @@
 package com.interfaces;
 
+import com.model.Account;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -8,9 +10,9 @@ import java.rmi.RemoteException;
  */
 public interface AuthService extends Remote {
     // Authentication
-    Object connect() throws RemoteException;
+    Account connect(String username, String password) throws RemoteException;
     void logout() throws RemoteException;
-    Object register() throws RemoteException;
+    Account register(String username, String password) throws RemoteException;
 
     // Save the data
     void save(Object discussion) throws RemoteException;
