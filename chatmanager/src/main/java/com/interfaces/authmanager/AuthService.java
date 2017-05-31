@@ -1,4 +1,4 @@
-package com.interfaces;
+package com.interfaces.authmanager;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
