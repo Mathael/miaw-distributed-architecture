@@ -1,11 +1,14 @@
 package com.interfaces;
 
+import com.model.Account;
+
 /**
  * @author Leboc Philippe.
  */
 public interface ChatService {
     // Channels
-    boolean joinChannel(String channelId);
+    boolean joinChannel(String channelId, Account a);
+
     void exitChannel(String channelId);
 
     // chat

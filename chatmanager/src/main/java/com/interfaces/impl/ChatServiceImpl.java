@@ -1,34 +1,45 @@
 package com.interfaces.impl;
 
 import com.interfaces.ChatService;
+import com.model.Account;
+import com.model.Channel;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Leboc Philippe.
  */
 public class ChatServiceImpl implements ChatService {
 
-    @Override
-    public Object connect() {
-        return null;
+    private HashMap<Channel, Account> channels;
+
+    public ChatServiceImpl() {
+        this.channels = new HashMap<>();
     }
 
     @Override
-    public void logout() {
+    public boolean joinChannel(String channelId, Account account) {
 
-    }
+        final Channel channel = channels
+                .keySet()
+                .stream()
+                .filter(c -> c.getChannelId().equals(channelId))
+                .findFirst().orElse(null);
 
-    @Override
-    public Object register() {
-        return null;
-    }
+        if (channel != null) {
+            channels.put(channel, account);
+            return true;
+        }
 
-    @Override
-    public boolean joinChannel(String channelId) {
         return false;
     }
 
     @Override
     public void exitChannel(String channelId) {
+
+        
 
     }
 
