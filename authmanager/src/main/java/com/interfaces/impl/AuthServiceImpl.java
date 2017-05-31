@@ -7,6 +7,7 @@ import lombok.Data;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,25 +20,51 @@ public class AuthServiceImpl implements AuthService {
     private static final String ACCOUNTS_FILE_PATH = "accounts.txt";
 
     // Store logged account
-    private List<Account> accounts;
+    private List<Account> onlineAccounts;
 
     public AuthServiceImpl(){
-        accounts = new ArrayList<>();
+        onlineAccounts = new ArrayList<>();
     }
 
     @Override
     public Account connect(String username, String password) {
-        System.out.println("Ca marche");
-        return null;
+        final Account account = findAccount(username);
+        if(account == null || !account.getPassword().equals(password)) return null;
+        // User has logged in : store in Online Accounts List
+        onlineAccounts.add(account);
+        return account;
     }
 
     @Override
-    public void logout() {
-
+    public void logout(Account account) {
+        onlineAccounts.remove(account);
     }
 
     @Override
     public Account register(String username, String password) {
+        final Account existingAccount = findAccount(username);
+        if(existingAccount != null) return null;
+
+        Account account = null;
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(ACCOUNTS_FILE_PATH, "UTF-8");
+            writer.println(username+":"+password);
+            writer.close();
+
+            account = new Account(username, password);
+        } catch (Exception e) {
+            if(writer != null) writer.close();
+        }
+        return account;
+    }
+
+    @Override
+    public void save(Object discussion) {
+
+    }
+
+    private Account findAccount(String username) {
         BufferedReader buffer = null;
         FileReader reader = null;
         Account account = null;
@@ -53,8 +80,8 @@ public class AuthServiceImpl implements AuthService {
                 // username:password
                 String[] items = line.split(":");
 
-                if(username.equalsIgnoreCase(items[0]) && password.equalsIgnoreCase(items[1])) {
-                    account = new Account(username, password);
+                if(username.equalsIgnoreCase(items[0])) {
+                    account = new Account(username, items[1]);
                     // getAccounts().add(account); auto connect.
                     System.out.println("Utilisateur récupéré");
                 }
@@ -73,10 +100,5 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return account;
-    }
-
-    @Override
-    public void save(Object discussion) {
-
     }
 }

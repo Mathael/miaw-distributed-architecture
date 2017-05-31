@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 public interface AuthService extends Remote {
     // Authentication
     Account connect(String username, String password) throws RemoteException;
-    void logout() throws RemoteException;
+    void logout(Account account) throws RemoteException;
     Account register(String username, String password) throws RemoteException;
 
     // Save the data
