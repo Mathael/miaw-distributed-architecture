@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class ChatServiceImpl implements ChatService {
 
-    private HashMap<Channel, Account> channels;
+    private HashMap<Channel, List<Account> > channels;
 
     public ChatServiceImpl() {
         this.channels = new HashMap<>();
@@ -29,17 +29,28 @@ public class ChatServiceImpl implements ChatService {
                 .findFirst().orElse(null);
 
         if (channel != null) {
-            channels.put(channel, account);
-            return true;
+            final List<Account> accounts = channels.get(channel);
+            if(accounts != null) {
+                accounts.add(account);
+                return true;
+            }
         }
 
         return false;
     }
 
     @Override
-    public void exitChannel(String channelId) {
+    public void exitChannel(String channelId, Account account) {
 
-        
+        final Channel channel = channels
+                .keySet()
+                .stream()
+                .filter(c -> c.getChannelId().equals(channelId))
+                .findFirst().orElse(null);
+
+        if(channel != null) {
+           channels.
+        }
 
     }
 

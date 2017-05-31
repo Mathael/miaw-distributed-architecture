@@ -7,9 +7,9 @@ import com.model.Account;
  */
 public interface ChatService {
     // Channels
-    boolean joinChannel(String channelId, Account a);
+    boolean joinChannel(String channelId, Account account);
 
-    void exitChannel(String channelId);
+    void exitChannel(String channelId, Account account);
 
     // chat
     void say(String channelId, String message);
