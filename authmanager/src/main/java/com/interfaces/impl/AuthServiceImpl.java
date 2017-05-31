@@ -3,6 +3,8 @@ package com.interfaces.impl;
 import com.interfaces.AuthService;
 import com.model.Account;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,7 +19,16 @@ import java.util.List;
 @Data
 public class AuthServiceImpl implements AuthService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
     private static final String ACCOUNTS_FILE_PATH = "accounts.txt";
+
+    // Logging messages
+    private static final String CONNECTION_FAIL = "Connection request has failed";
+    private static final String CONNECTION_SUCCESS = "Connection request was successful";
+    private static final String REGISTER_FAIL = "Register request has fail";
+    private static final String REGISTER_SUCCESS = "Register request was successful";
+    private static final String FILE_EXCEPTION = "File manipulation exception spotted";
+    private static final String FILE_EXCEPTION_READ_FILE = "Unable to open ";
 
     // Store logged account
     private List<Account> onlineAccounts;
@@ -29,9 +40,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Account connect(String username, String password) {
         final Account account = findAccount(username);
-        if(account == null || !account.getPassword().equals(password)) return null;
+        if(account == null || !account.getPassword().equals(password)) {
+            LOGGER.warn(CONNECTION_FAIL);
+            return null;
+        }
+
         // User has logged in : store in Online Accounts List
         onlineAccounts.add(account);
+        LOGGER.info(CONNECTION_SUCCESS);
         return account;
     }
 
@@ -43,7 +59,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Account register(String username, String password) {
         final Account existingAccount = findAccount(username);
-        if(existingAccount != null) return null;
+        if(existingAccount != null) {
+            LOGGER.warn(REGISTER_FAIL);
+            return null;
+        }
 
         Account account = null;
         PrintWriter writer = null;
@@ -51,10 +70,11 @@ public class AuthServiceImpl implements AuthService {
             writer = new PrintWriter(ACCOUNTS_FILE_PATH, "UTF-8");
             writer.println(username+":"+password);
             writer.close();
-
             account = new Account(username, password);
+            LOGGER.info(REGISTER_SUCCESS);
         } catch (Exception e) {
             if(writer != null) writer.close();
+            LOGGER.error(FILE_EXCEPTION, e);
         }
         return account;
     }
@@ -64,6 +84,10 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
+    /**
+     * @param username The account username
+     * @return the found account with username equals IGNORE CASE the username parameter | null otherwise
+     */
     private Account findAccount(String username) {
         BufferedReader buffer = null;
         FileReader reader = null;
@@ -81,15 +105,13 @@ public class AuthServiceImpl implements AuthService {
                 String[] items = line.split(":");
 
                 if(username.equalsIgnoreCase(items[0])) {
-                    account = new Account(username, items[1]);
+                    account = new Account(items[0], items[1]);
                     // getAccounts().add(account); auto connect.
-                    System.out.println("Utilisateur récupéré");
                 }
             }
 
         } catch (IOException e) {
-            System.out.println("Impossible de lire le fichier listant les comptes.");
-            e.printStackTrace();
+            LOGGER.error(FILE_EXCEPTION_READ_FILE, e);
         } finally {
             try {
                 if(buffer != null) buffer.close();

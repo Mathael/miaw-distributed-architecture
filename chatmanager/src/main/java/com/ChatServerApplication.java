@@ -1,8 +1,8 @@
 package com;
 
-import com.interfaces.authmanager.AuthService;
+import com.interfaces.AuthService;
+import com.model.Account;
 
-import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -34,14 +34,18 @@ public final class ChatServerApplication {
             final Registry registry = LocateRegistry.getRegistry(REGISTRY_HOST, REGISTRY_PORT);
             final AuthService authService = (AuthService) registry.lookup("authService");
 
-            authService.connect();
+            //final Account account = authService.register("Philippe", "azerty");
+
+            final Account account = authService.connect("philippe", "azerty");
+            if(account == null) System.out.println("FAIL"); else System.out.println(account.toString());
+
 
             //final Abonne client = new AbonneImpl();
             //final Abonne abonne = (Abonne) UnicastRemoteObject.exportObject(client, 0);
 
-            //if(infoTraficService.abonner(abonne)) {
-            //    registry.bind(UUID.randomUUID().toString(), abonne);
-            //}
+            /*if(infoTraficService.abonner(abonne)) {
+                registry.bind(UUID.randomUUID().toString(), abonne);
+            }*/
         }
         catch (RemoteException | NotBoundException | ClassCastException e)
         {

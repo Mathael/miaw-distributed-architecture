@@ -1,6 +1,6 @@
 package com;
 
-import com.interfaces.authmanager.AuthService;
+import com.interfaces.AuthService;
 import com.interfaces.impl.AuthServiceImpl;
 
 import java.rmi.AlreadyBoundException;
@@ -21,13 +21,13 @@ public final class AuthServerApplication {
         {
             final Registry registry = LocateRegistry.createRegistry(REGISTRY_PORT);
 
-            final AuthServiceImpl auth = new AuthServiceImpl();
+            final AuthService auth = new AuthServiceImpl();
             final AuthService authService = (AuthService) UnicastRemoteObject.exportObject(auth, 0);
-            registry.bind("authService", authService);
+            registry.rebind("authService", authService);
 
-            System.out.println("Server started...");
+            System.out.println("Server listening on 127.0.0.1:" + REGISTRY_PORT);
         }
-        catch (RemoteException | AlreadyBoundException e)
+        catch (RemoteException e)
         {
             e.printStackTrace();
         }
