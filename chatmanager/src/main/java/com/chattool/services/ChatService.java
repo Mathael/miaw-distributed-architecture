@@ -12,5 +12,5 @@ public interface ChatService {
     void exitChannel(String channelId, Account account);
 
     // chat
-    void say(String channelId, String message);
+    void say(String channelId, String messageContent, String accountId);
 }

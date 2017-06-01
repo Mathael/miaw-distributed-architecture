@@ -15,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @ToString
 public final class Account implements Serializable {
+    private String accountId;
     private String username;
     private String password;
 }

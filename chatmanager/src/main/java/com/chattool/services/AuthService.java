@@ -13,4 +13,5 @@ public interface AuthService extends Remote {
     void logout(Account account) throws RemoteException;
     Account register(String username, String password) throws RemoteException;
     boolean remove(String username) throws RemoteException;
+    Account findAccount(String accountId) throws RemoteException;
 }

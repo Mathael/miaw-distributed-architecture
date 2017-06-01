@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Leboc Philippe.
@@ -75,7 +76,7 @@ public class AuthServiceImpl implements AuthService {
             writer = new PrintWriter(ACCOUNTS_FILE_PATH, "UTF-8");
             writer.println(username+":"+password);
             writer.close();
-            account = new Account(username, password);
+            account = new Account(UUID.randomUUID().toString(), username, password);
             LOGGER.info(REGISTER_SUCCESS);
         } catch (Exception e) {
             if(writer != null) writer.close();
@@ -106,7 +107,7 @@ public class AuthServiceImpl implements AuthService {
      * @param username The account username
      * @return the found account with username equals IGNORE CASE the username parameter | null otherwise
      */
-    private Account findAccount(String username) {
+    public Account findAccount(String username) {
         BufferedReader buffer = null;
         FileReader reader = null;
         Account account = null;
@@ -123,7 +124,7 @@ public class AuthServiceImpl implements AuthService {
                 String[] items = line.split(":");
 
                 if(username.equalsIgnoreCase(items[0])) {
-                    account = new Account(items[0], items[1]);
+                    account = new Account(items[0], items[1],items[2]);
                     // getAccounts().add(account); auto connect.
                 }
             }
