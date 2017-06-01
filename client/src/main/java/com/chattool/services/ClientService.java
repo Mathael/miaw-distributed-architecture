@@ -1,4 +1,4 @@
-package com.interfaces;
+package com.chattool.services;
 
 /**
  * @author Leboc Philippe.

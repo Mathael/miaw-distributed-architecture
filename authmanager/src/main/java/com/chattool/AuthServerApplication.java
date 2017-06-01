@@ -1,9 +1,10 @@
-package com;
+package com.chattool;
 
-import com.interfaces.AuthService;
-import com.interfaces.impl.AuthServiceImpl;
+import com.chattool.services.AuthService;
+import com.chattool.services.MessageService;
+import com.chattool.services.impl.AuthServiceImpl;
+import com.chattool.services.impl.MessageServiceImpl;
 
-import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -21,9 +22,13 @@ public final class AuthServerApplication {
         {
             final Registry registry = LocateRegistry.createRegistry(REGISTRY_PORT);
 
-            final AuthService auth = new AuthServiceImpl();
-            final AuthService authService = (AuthService) UnicastRemoteObject.exportObject(auth, 0);
+            // Export des services
+            final AuthService authService = (AuthService) UnicastRemoteObject.exportObject(new AuthServiceImpl(), 0);
+            final MessageService messageService = (MessageService) UnicastRemoteObject.exportObject(new MessageServiceImpl(), 0);
+
+            // Liaison des services à des nom spécifiques afin de les récupérer
             registry.rebind("authService", authService);
+            registry.rebind("messageService", messageService);
 
             System.out.println("Server listening on 127.0.0.1:" + REGISTRY_PORT);
         }

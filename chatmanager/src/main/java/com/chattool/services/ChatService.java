@@ -1,4 +1,4 @@
-package com.interfaces;
+package com.chattool.services;
 
 /**
  * @author Leboc Philippe.
@@ -10,10 +10,4 @@ public interface ChatService {
 
     // chat
     void say(String channelId, String message);
-
-    // Historique
-    // TODO
-
-    // Gestion des comptes
-    // TODO
 }

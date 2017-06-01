@@ -1,7 +1,7 @@
-package com.interfaces.impl;
+package com.chattool.services.impl;
 
-import com.interfaces.AuthService;
-import com.model.Account;
+import com.chattool.services.AuthService;
+import com.chattool.model.Account;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,10 @@ import java.util.List;
 @Data
 public class AuthServiceImpl implements AuthService {
 
+    // SLF4J Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
+
+    // Data file
     private static final String ACCOUNTS_FILE_PATH = "accounts.txt";
 
     // Logging messages
@@ -28,7 +32,8 @@ public class AuthServiceImpl implements AuthService {
     private static final String REGISTER_FAIL = "Register request has fail";
     private static final String REGISTER_SUCCESS = "Register request was successful";
     private static final String FILE_EXCEPTION = "File manipulation exception spotted";
-    private static final String FILE_EXCEPTION_READ_FILE = "Unable to open ";
+    private static final String FILE_EXCEPTION_READ_FILE = "Unable to open the account file";
+    private static final String CANNOT_RETRIEVE_ACCOUNT = "Cannot retrieve account";
 
     // Store logged account
     private List<Account> onlineAccounts;
@@ -80,8 +85,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void save(Object discussion) {
+    public boolean remove(String username) throws RemoteException {
+        final Account account = findAccount(username);
+        if(account == null) {
+            LOGGER.warn(CANNOT_RETRIEVE_ACCOUNT);
+            return false;
+        }
 
+        // Remplacer une ligne est bien plus compliqué que réécrire le fichier.
+        // Dans le monde réel, on stockerais pas des millions d'utilisateurs de cette façon donc ici on se permet de le faire ;)
+
+        //      - read current file:
+        //      - rewrite all account (except the specific account) into a second file
+        //      - delete current file and rename the second file to be used as the new file.
+        //      - [May be: concurrent access]
+        return true;
     }
 
     /**
