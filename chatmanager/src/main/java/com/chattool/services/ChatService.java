@@ -1,6 +1,6 @@
 package com.chattool.services;
 
-import com.model.Account;
+import com.chattool.model.Account;
 
 /**
  * @author Leboc Philippe.

@@ -1,10 +1,9 @@
 package com.chattool.services.impl;
 
-import com.interfaces.ChatService;
-import com.model.Account;
-import com.model.Channel;
+import com.chattool.services.ChatService;
+import com.chattool.model.Account;
+import com.chattool.model.Channel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class ChatServiceImpl implements ChatService {
                 .findFirst().orElse(null);
 
         if(channel != null) {
-           channels.
+           //channels.
         }
 
     }

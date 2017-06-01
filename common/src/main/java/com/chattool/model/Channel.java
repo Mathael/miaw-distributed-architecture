@@ -1,4 +1,4 @@
-package com.model;
+package com.chattool.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Lucas on 31/05/2017.
+ * @author Lucas on 31/05/2017.
  */
 @Data
 @AllArgsConstructor

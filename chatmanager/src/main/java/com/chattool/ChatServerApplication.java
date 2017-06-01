@@ -30,23 +30,13 @@ public final class ChatServerApplication {
                 REGISTRY_PORT = Integer.parseInt(args[1]);
             }
 
+            // Connexion au registry
             System.out.println("Récupération du registre " + REGISTRY_HOST + ":" + REGISTRY_PORT);
             final Registry registry = LocateRegistry.getRegistry(REGISTRY_HOST, REGISTRY_PORT);
 
+            // Récupération des services qui sont sur le registry
             final AuthService authService = (AuthService) registry.lookup("authService");
             final MessageService messageService = (MessageService) registry.lookup("messageService");
-
-            //final Account account = authService.register("Philippe", "azerty");
-
-            final Account account = authService.connect("philippe", "azerty");
-            if(account == null) System.out.println("FAIL"); else System.out.println(account.toString());
-
-            //final Abonne client = new AbonneImpl();
-            //final Abonne abonne = (Abonne) UnicastRemoteObject.exportObject(client, 0);
-
-            /*if(infoTraficService.abonner(abonne)) {
-                registry.bind(UUID.randomUUID().toString(), abonne);
-            }*/
 
             final Scanner sc = new Scanner(System.in);
             System.out.println("-----------------------------------------------");
