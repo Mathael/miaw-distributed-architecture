@@ -1,7 +1,6 @@
 package com.chattool;
 
 import com.chattool.services.AuthService;
-import com.chattool.model.Account;
 import com.chattool.services.MessageService;
 
 import java.rmi.NotBoundException;
