@@ -1,10 +1,11 @@
 package com.chattool.services.impl;
 
+import com.chattool.ServiceRestApplication;
 import com.chattool.model.Account;
 import com.chattool.model.Channel;
 import com.chattool.model.Message;
-import com.chattool.services.AuthService;
-import com.chattool.services.ChatService;
+import com.chattool.services.ChannelService;
+import org.springframework.stereotype.Service;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -14,14 +15,13 @@ import java.util.UUID;
 /**
  * @author Lucas Georges.
  */
-public class ChatServiceImpl implements ChatService {
+@Service
+public class ChannelServiceImpl implements ChannelService {
 
     private HashMap<Channel, List<Account>> channels;
-    private AuthService authService;
 
-    public ChatServiceImpl(AuthService authService) {
-        channels = new HashMap<>();
-        this.authService = authService;
+    public ChannelServiceImpl() {
+        this.channels = new HashMap<>();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void say(String channelId, String messageContent, String accountId) {
         try {
-            final Account account = authService.findAccount(accountId);
+            final Account account = ServiceRestApplication.authService.findAccount(accountId);
             if(account == null) return;
 
             final Channel channel = channels

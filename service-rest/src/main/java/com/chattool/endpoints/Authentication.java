@@ -2,6 +2,8 @@ package com.chattool.endpoints;
 
 import com.chattool.ServiceRestApplication;
 import com.chattool.model.Account;
+import com.chattool.services.AccountingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.*;
     produces = {MediaType.APPLICATION_XML_VALUE})
 public class Authentication {
 
+    @Autowired
+    private AccountingService accountingService;
+
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
-    public Account authentication(@RequestParam(value="username") String username, @RequestParam(value="password") String password) throws Exception {
+    public Account authentication(@RequestBody String username, @RequestBody String password) throws Exception {
         Assert.hasLength(username, "parameter username is null or empty");
         Assert.hasLength(password, "parameter password is null or empty");
-        //return ServiceRestApplication.authService.connect(username, password);
-        return null;
+        return accountingService.login(username, password);
     }
 
     @RequestMapping(value = "/logout")

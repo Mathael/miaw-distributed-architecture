@@ -5,7 +5,7 @@ import com.chattool.model.Account;
 /**
  * @author Leboc Philippe.
  */
-public interface ChatService {
+public interface ChannelService {
     // Channels
     boolean joinChannel(String channelId, Account account);
 
