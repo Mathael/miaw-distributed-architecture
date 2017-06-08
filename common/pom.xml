@@ -14,6 +14,7 @@
     </parent>
 
     <dependencies>
+        <!-- Java useful library -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

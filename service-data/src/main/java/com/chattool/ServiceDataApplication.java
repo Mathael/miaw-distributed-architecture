@@ -13,7 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 /**
  * @author Leboc Philippe.
  */
-public final class AuthServerApplication {
+public final class ServiceDataApplication {
 
     private static final int REGISTRY_PORT = 2000;
 
