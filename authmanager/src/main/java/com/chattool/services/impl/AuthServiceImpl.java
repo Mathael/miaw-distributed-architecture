@@ -6,10 +6,7 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +70,8 @@ public class AuthServiceImpl implements AuthService {
         Account account = null;
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter(ACCOUNTS_FILE_PATH, "UTF-8");
-            writer.println(username+":"+password);
+            writer = new PrintWriter(new FileOutputStream(ACCOUNTS_FILE_PATH, true));
+            writer.println(String.format("%s:%s", username, password));
             writer.close();
             account = new Account(UUID.randomUUID().toString(), username, password);
             LOGGER.info(REGISTER_SUCCESS);
@@ -118,7 +115,6 @@ public class AuthServiceImpl implements AuthService {
             String line;
 
             while((account == null) && (line = buffer.readLine()) != null) {
-                System.out.println(line);
                 // Les utilisateurs sont stocké sous le format:
                 // username:password
                 String[] items = line.split(":");

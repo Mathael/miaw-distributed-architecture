@@ -1,10 +1,10 @@
 package com.chattool.services.impl;
 
+import com.chattool.model.Account;
+import com.chattool.model.Channel;
 import com.chattool.model.Message;
 import com.chattool.services.AuthService;
 import com.chattool.services.ChatService;
-import com.chattool.model.Account;
-import com.chattool.model.Channel;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
