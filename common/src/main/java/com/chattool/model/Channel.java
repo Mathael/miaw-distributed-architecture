@@ -13,14 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 public final class Channel {
 
-    private String channelId;
-    private String channelName;
-    private List<Message> channelMessageList;
-    private List<Account> channelAccountList;
+    private String id;
+    private String name;
+    private List<Message> messages;
+    private List<Account> accounts;
 
     public Channel() {
-        this.channelMessageList = new ArrayList<>();
-        this.channelAccountList = new ArrayList<>();
+        this.messages = new ArrayList<>();
+        this.accounts = new ArrayList<>();
     }
 
 }

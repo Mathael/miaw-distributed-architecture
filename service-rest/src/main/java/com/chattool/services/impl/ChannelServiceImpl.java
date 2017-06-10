@@ -18,7 +18,7 @@ import java.util.UUID;
 @Service
 public class ChannelServiceImpl implements ChannelService {
 
-    private HashMap<Channel, List<Account>> channels;
+    private final HashMap<Channel, List<Account>> channels;
 
     public ChannelServiceImpl() {
         this.channels = new HashMap<>();
@@ -26,35 +26,25 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public boolean joinChannel(String channelId, Account account) {
-        final Channel channel = channels
-                .keySet()
-                .stream()
-                .filter(c -> c.getChannelId().equals(channelId))
-                .findFirst().orElse(null);
 
-        if (channel != null) {
-            final List<Account> accounts = channels.get(channel);
-            if (accounts != null) {
-                accounts.add(account);
-                return true;
-            }
-        }
-        return false;
+        final Channel channel = findChannel(channelId);
+        if(channel == null) return false;
+
+        final List<Account> accounts = channels.get(channel);
+        if (accounts == null) return false;
+
+        accounts.add(account);
+        return true;
     }
 
     @Override
     public void exitChannel(String channelId, Account account) {
 
-        final Channel channel = channels
-                .keySet()
-                .stream()
-                .filter(c -> c.getChannelId().equals(channelId))
-                .findFirst().orElse(null);
+        final Channel channel = findChannel(channelId);
+        if(channel == null) return;
 
-        if (channel != null) {
-            final List<Account> accounts = channels.get(channel);
-            accounts.remove(account);
-        }
+        final List<Account> accounts = channels.get(channel);
+        accounts.remove(account);
     }
 
     @Override
@@ -63,17 +53,22 @@ public class ChannelServiceImpl implements ChannelService {
             final Account account = ServiceRestApplication.authService.findAccount(accountId);
             if(account == null) return;
 
-            final Channel channel = channels
-                    .keySet()
-                    .stream()
-                    .filter(c -> c.getChannelId().equals(channelId))
-                    .findFirst().orElse(null);
+            final Channel channel = findChannel(channelId);
+            if(channel == null) return;
 
             final Message message = new Message(UUID.randomUUID().toString(), messageContent, account);
-            channel.getChannelMessageList().add(message);
+            channel.getMessages().add(message);
 
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    private Channel findChannel(String channelId) {
+        return channels
+                .keySet()
+                .stream()
+                .filter(c -> c.getId().equals(channelId))
+                .findFirst().orElse(null);
     }
 }
