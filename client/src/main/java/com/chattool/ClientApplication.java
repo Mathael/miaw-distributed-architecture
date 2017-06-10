@@ -1,7 +1,9 @@
 package com.chattool;
 
-import com.chattool.model.Account;
+import com.chattool.commands.CommandHandler;
+import com.chattool.commands.ICommandHandler;
 import com.chattool.services.ClientService;
+import com.chattool.util.Message;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -9,9 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import java.util.Scanner;
 
 /**
@@ -28,51 +28,55 @@ public final class ClientApplication implements ClientService {
     // Web Service host
     private static final String WS_RESOURCE_URI = "http://localhost:8080";
 
-    // Client inputs choice
-    private static final int OPTION_LOGIN = 1;
-    private static final int OPTION_REGISTER = 2;
-    private static final int OPTION_DISCONNECT = 3;
+    // Client
+    private static WebTarget client = null;
 
     public static void main(String... args) {
 
-        int choice = 0;
+        // Loading Handlers
+        CommandHandler.getInstance();
 
-        while(choice != OPTION_DISCONNECT) {
+        // Catch "quit" command
+        boolean exit = false;
 
+        while(!exit)
+        {
             displayHelp();
+
+            // Waiting for client action: handler [params]
+            // Exemple: register myusername myuserpassword
             final String userEntry = readClientInput();
-            final String[] entries = userEntry.split(":");
+            final String[] entries = userEntry.split(" ");
 
-            choice = tryParseInt(entries[0]);
+            if(entries[0].equalsIgnoreCase("quit")) exit = true;
 
-            switch (choice)
-            {
-                case OPTION_LOGIN: break;
-                case OPTION_REGISTER:
-                {
-                    final Account account =
-                        buildClient()
-                            .path("/chatAuthService/register")
-                            .request()
-                            .accept(MediaType.APPLICATION_XML)
-                            .post(Entity.xml(new Account("-1", entries[1], entries[2])))
-                            .readEntity(Account.class);
+            if(!exit) {
+                // Retrieve the command handler
+                final ICommandHandler handler = CommandHandler.getInstance().getHandler(entries[0]);
 
-                    if(account != null) {
-                        LOGGER.info(String.format("Le compte %s a été créé avec succès", account.getUsername()));
-                    }
-                    break;
-                }
-                case OPTION_DISCONNECT:
-                    LOGGER.info("Vous venez de vous déconnecter.");
-                    break;
-                default: System.out.println("Ce choix n'existe pas !");
+                // Execute command
+                if (handler != null)
+                    handler.useCommand(entries[0], entries[1], entries[2]);
+                else
+                    LOGGER.info(Message.UNKNOWN_COMMAND);
             }
         }
-
     }
 
-    public static WebTarget buildClient() {
+    /**
+     * This method prevent from double instance. If client is already instantiated, return it.
+     * @return The client used to create requests.
+     */
+    public static WebTarget webClient() {
+        if(client == null)
+            client = buildClient();
+        return client;
+    }
+
+    /**
+     * @return WebTarget object corresponding to our Web client used to request the Web Service
+     */
+    private static WebTarget buildClient() {
         final ClientConfig clientConfig = new ClientConfig()
                 .property(ClientProperties.READ_TIMEOUT, 8000)
                 .property(ClientProperties.CONNECT_TIMEOUT, 5000);
@@ -85,25 +89,22 @@ public final class ClientApplication implements ClientService {
 
     @Override
     public void displayMessage(String channelId, String message) {
-        System.out.println("[" + channelId + "]" + message);
+        LOGGER.info("[" + channelId + "]" + message);
     }
 
     public static void displayHelp(){
-        System.out.println("-----------------------------------------------");
-        System.out.println("- [0] Connexion");
-        System.out.println("- [1] Créer un compte");
-        System.out.println("- [2] Déconnexion");
-        System.out.println("-----------------------------------------------");
-        System.out.println(">");
+        LOGGER.info("-----------------------------------------------");
+        LOGGER.info("- [0] Connexion");
+        LOGGER.info("- [1] Créer un compte");
+        LOGGER.info("- [2] Déconnexion");
+        LOGGER.info("-----------------------------------------------");
+        LOGGER.info(">");
     }
 
+    /**
+     * @return ask user to write somethings and return the entire line
+     */
     public static String readClientInput() {
         return terminal.nextLine();
-    }
-
-    private static int tryParseInt(String value) {
-        int number;
-        try { number = Integer.parseInt(value); } catch(NumberFormatException nfe) { number = 0; }
-        return number;
     }
 }

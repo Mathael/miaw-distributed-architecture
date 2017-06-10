@@ -21,7 +21,7 @@ public class Authentication {
     @Autowired
     private AccountingService accountingService;
 
-    @RequestMapping(value = "/connect", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Account authentication(@RequestBody String username, @RequestBody String password) throws Exception {
         Assert.hasLength(username, "parameter username is null or empty");
         Assert.hasLength(password, "parameter password is null or empty");

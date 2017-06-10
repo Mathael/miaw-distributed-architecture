@@ -4,6 +4,8 @@ import com.chattool.services.AuthService;
 import com.chattool.services.MessageService;
 import com.chattool.services.impl.AuthServiceImpl;
 import com.chattool.services.impl.MessageServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -15,6 +17,10 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public final class ServiceDataApplication {
 
+    // SLF4J Logger
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceDataApplication.class);
+
+    // TODO: unhardcode registry port
     private static final int REGISTRY_PORT = 2000;
 
     public static void main(String... args) {
@@ -30,11 +36,11 @@ public final class ServiceDataApplication {
             registry.rebind("authService", authService);
             registry.rebind("messageService", messageService);
 
-            System.out.println("Server listening on 127.0.0.1:" + REGISTRY_PORT);
+            LOGGER.info("Server listening on 127.0.0.1:" + REGISTRY_PORT);
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            LOGGER.error("Catching RMI Exception: ", e);
         }
     }
 }

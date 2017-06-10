@@ -10,6 +10,7 @@ import java.util.List;
  * @author Leboc Philippe.
  */
 public class MessageServiceImpl implements MessageService {
+
     @Override
     public void saveHistory(List<Object> messages) throws RemoteException {
 
