@@ -88,9 +88,8 @@ public class AuthServiceImpl implements AuthService {
                 // username:password
                 String[] items = line.split(":");
 
-                if(username.equalsIgnoreCase(items[0])) {
+                if(username.equalsIgnoreCase(items[1])) {
                     account = new Account(items[0], items[1],items[2]);
-                    // getAccounts().add(account); auto connect.
                 }
             }
 

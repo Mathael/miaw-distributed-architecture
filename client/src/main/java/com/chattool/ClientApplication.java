@@ -2,7 +2,6 @@ package com.chattool;
 
 import com.chattool.commands.CommandHandler;
 import com.chattool.commands.ICommandHandler;
-import com.chattool.services.ClientService;
 import com.chattool.util.Message;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
@@ -17,7 +16,7 @@ import java.util.Scanner;
 /**
  * @author Leboc Philippe.
  */
-public final class ClientApplication implements ClientService {
+public final class ClientApplication {
 
     // SLF4J Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientApplication.class);
@@ -36,7 +35,7 @@ public final class ClientApplication implements ClientService {
         // Loading Handlers
         CommandHandler.getInstance();
 
-        // Catch "quit" command
+        // Catch "exit" command
         boolean exit = false;
 
         while(!exit)
@@ -48,7 +47,7 @@ public final class ClientApplication implements ClientService {
             final String userEntry = readClientInput();
             final String[] entries = userEntry.split(" ");
 
-            if(entries[0].equalsIgnoreCase("quit")) exit = true;
+            if(entries[0].equalsIgnoreCase("exit")) exit = true;
 
             if(!exit) {
                 // Retrieve the command handler
@@ -85,11 +84,6 @@ public final class ClientApplication implements ClientService {
                 .newClient(clientConfig)
                 .register(new LoggingFeature())
                 .target(WS_RESOURCE_URI);
-    }
-
-    @Override
-    public void displayMessage(String channelId, String message) {
-        LOGGER.info("[" + channelId + "]" + message);
     }
 
     public static void displayHelp(){
