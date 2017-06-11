@@ -4,11 +4,13 @@ import com.chattool.ServiceRestApplication;
 import com.chattool.model.Account;
 import com.chattool.model.Channel;
 import com.chattool.model.Message;
+import com.chattool.services.AccountingService;
 import com.chattool.services.ChannelService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,37 +20,50 @@ import java.util.UUID;
 @Service
 public class ChannelServiceImpl implements ChannelService {
 
-    private final HashMap<Channel, List<Account>> channels;
+    @Autowired
+    private AccountingService accountingService;
+
+    private final List<Channel> channels;
 
     public ChannelServiceImpl() {
-        this.channels = new HashMap<>();
+        this.channels = new ArrayList<>();
     }
 
     @Override
-    public boolean joinChannel(String channelId, Account account) {
+    public List<Channel> findAll() {
+        return channels;
+    }
+
+    @Override
+    public Channel join(String channelId, Account account) {
+
+        if(!accountingService.isLoggedIn(account)) return null;
 
         final Channel channel = findChannel(channelId);
-        if(channel == null) return false;
+        if(channel == null) return null;
 
-        final List<Account> accounts = channels.get(channel);
-        if (accounts == null) return false;
-
-        accounts.add(account);
-        return true;
+        channel.getAccounts().add(account);
+        return channel;
     }
 
     @Override
-    public void exitChannel(String channelId, Account account) {
+    public void exit(String channelId, Account account) {
+
+        if(!accountingService.isLoggedIn(account)) return;
 
         final Channel channel = findChannel(channelId);
         if(channel == null) return;
 
-        final List<Account> accounts = channels.get(channel);
-        accounts.remove(account);
+        channel.getAccounts().remove(account);
     }
 
     @Override
     public void say(String channelId, String messageContent, String accountId) {
+
+        // TODO: handle me
+        // TODO: re-impl me
+        //if(!accountingService.isLoggedIn(account)) return false;
+
         try {
             final Account account = ServiceRestApplication.authService.findAccount(accountId);
             if(account == null) return;
@@ -66,7 +81,6 @@ public class ChannelServiceImpl implements ChannelService {
 
     private Channel findChannel(String channelId) {
         return channels
-                .keySet()
                 .stream()
                 .filter(c -> c.getId().equals(channelId))
                 .findFirst().orElse(null);

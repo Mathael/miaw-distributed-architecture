@@ -17,7 +17,7 @@ import java.io.Serializable;
 @ToString
 @XmlRootElement
 public final class Account implements Serializable {
-    private String accountId;
+    private String id;
     private String username;
     private String password;
 }

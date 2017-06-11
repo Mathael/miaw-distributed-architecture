@@ -3,6 +3,7 @@ package com.chattool.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
-public final class Channel {
+public final class Channel implements Serializable{
 
     private String id;
     private String name;
@@ -22,5 +23,4 @@ public final class Channel {
         this.messages = new ArrayList<>();
         this.accounts = new ArrayList<>();
     }
-
 }

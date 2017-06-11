@@ -18,7 +18,7 @@ public class AuthenticationRequestServiceImpl implements AuthenticationRequestSe
     public Account login(String username, String password) {
         final Map<String, String> requestBody = new HashMap<>();
         requestBody.put("username", username);
-        requestBody.put("username", password);
+        requestBody.put("password", password);
         return ClientApplication.webClient()
                 .path("/chatAuthService/login")
                 .request()

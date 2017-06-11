@@ -7,5 +7,6 @@ import com.chattool.model.Account;
  */
 public interface AccountingService {
     Account login(String username, String password);
-    String logout(Account account);
+    void logout(String accountId);
+    boolean isLoggedIn(Account account);
 }

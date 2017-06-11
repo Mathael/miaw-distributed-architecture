@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * @author Lucas on 31/05/2017.
@@ -13,8 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @AllArgsConstructor
 @NoArgsConstructor
 @XmlRootElement(name = "Message")
-public final class Message {
-    private String messageId;
-    private String messageContent;
-    private Account messageAccount;
+public final class Message implements Serializable {
+    private String id;
+    private String content;
+    private Account account;
 }

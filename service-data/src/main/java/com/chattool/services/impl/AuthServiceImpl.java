@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             account = new Account(UUID.randomUUID().toString(), username, password);
             writer = new PrintWriter(new FileOutputStream(ACCOUNTS_FILE_PATH, true));
-            writer.println(String.format("%s:%s:%s", account.getAccountId(), account.getUsername(), account.getPassword()));
+            writer.println(String.format("%s:%s:%s", account.getId(), account.getUsername(), account.getPassword()));
             writer.close();
             LOGGER.info(Message.REGISTER_SUCCESS);
         } catch (Exception e) {

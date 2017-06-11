@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
     value = "/chatAuthService",
     consumes = {MediaType.APPLICATION_XML_VALUE},
     produces = {MediaType.APPLICATION_XML_VALUE})
-public class Authentication {
+public class AuthenticationController {
 
     @Autowired
     private AccountingService accountingService;
@@ -28,8 +28,10 @@ public class Authentication {
         return accountingService.login(username, password);
     }
 
-    @RequestMapping(value = "/logout")
-    public void logout(Account account) throws Exception {}
+    @RequestMapping(value = "/logout/{id}")
+    public void logout(@PathVariable(value = "id") String accountId) throws Exception {
+        accountingService.logout(accountId);
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Account register(@RequestBody Account account) throws Exception {

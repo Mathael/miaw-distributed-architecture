@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * @author Leboc Philippe.
+ * Use it with @Autowired dependency injection.
+ * Note: This service is a Singleton
  */
 @Service
 public class AccountingServiceImpl implements AccountingService {
@@ -31,19 +33,33 @@ public class AccountingServiceImpl implements AccountingService {
             if(account == null || !account.getPassword().equals(password)) {
                 LOGGER.warn(Message.LOGIN_REQUEST_FAIL);
             }
-
         } catch (RemoteException e) {
             LOGGER.info(Message.RMI_REMOTE_FAIL, e);
         }
 
         // User has logged in : store in Online Accounts List
-        //onlineAccounts.add(account);
+        accounts.add(account);
         LOGGER.info(Message.LOGIN_REQUEST_SUCCESS);
         return account;
     }
 
     @Override
-    public String logout(Account account) {
-        return null;
+    public void logout(String accountId) {
+        final Account account = find(accountId);
+        accounts.remove(account);
+    }
+
+    @Override
+    public boolean isLoggedIn(Account account) {
+        final Account knownAccount = find(account);
+        return knownAccount != null;
+    }
+
+    public Account find(Account account) {
+        return find(account.getId());
+    }
+
+    public Account find(String accountId) {
+        return accounts.stream().filter(data -> data.getId().equals(accountId)).findFirst().orElse(null);
     }
 }
