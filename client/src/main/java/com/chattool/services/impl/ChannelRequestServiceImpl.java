@@ -1,6 +1,7 @@
 package com.chattool.services.impl;
 
 import com.chattool.ClientApplication;
+import com.chattool.model.Account;
 import com.chattool.model.Channel;
 import com.chattool.services.ChannelRequestService;
 
@@ -8,16 +9,22 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Leboc Philippe.
  */
-public class ChannelRequestImpl implements ChannelRequestService {
+public class ChannelRequestServiceImpl implements ChannelRequestService {
 
-    // Current channel list used by the client to communicate
-    private final List<Channel> channels = new ArrayList<>();
+    @Override
+    public Channel join(String name, Account account) {
+        return ClientApplication.webClient()
+                .path("/channel/join/"+name)
+                .request()
+                .accept(MediaType.APPLICATION_JSON)
+                .put(Entity.json(account))
+                .readEntity(Channel.class);
+    }
 
     @Override
     public Channel create(Channel channel) {
@@ -29,21 +36,13 @@ public class ChannelRequestImpl implements ChannelRequestService {
                 .readEntity(Channel.class);
     }
 
-    public List<Channel> getActiveChannels(){
-        return channels;
-    }
-
     @Override
     public List<Channel> retrieveAllChannels() {
-
-        final Response response = ClientApplication.webClient()
+        return ClientApplication.webClient()
                 .path("/channel")
                 .request()
                 .accept(MediaType.APPLICATION_JSON)
-                .get(Response.class);
-
-        System.out.println(response.toString());
-
-        return response.readEntity(new GenericType<List<Channel>>(){});
+                .get(Response.class)
+                .readEntity(new GenericType<List<Channel>>(){});
     }
 }

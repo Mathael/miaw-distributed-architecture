@@ -22,17 +22,17 @@ public interface ChannelService {
     List<Channel> findAll();
 
     /**
-     * @param id The channel identifier
+     * @param channelName The channel name
      * @param account Account who want to join the channel
      * @return newly joined channel information
      */
-    Channel join(String id, Account account);
+    Channel join(String channelName, Account account);
 
     /**
-     * @param id The channel identifier
+     * @param channelName The channel name
      * @param account Account who want to exit from the channel
      */
-    void exit(String id, Account account);
+    void quit(String channelName, Account account);
 
     /**
      *

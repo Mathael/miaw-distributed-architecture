@@ -3,7 +3,7 @@ package com.chattool;
 import com.chattool.commands.CommandHandler;
 import com.chattool.commands.ICommandHandler;
 import com.chattool.services.ChannelRequestService;
-import com.chattool.services.impl.ChannelRequestImpl;
+import com.chattool.services.impl.ChannelRequestServiceImpl;
 import com.chattool.util.Message;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
@@ -34,7 +34,7 @@ public final class ClientApplication {
     private static WebTarget client = null;
 
     // Services
-    public static final ChannelRequestService channelService = new ChannelRequestImpl();
+    public static final ChannelRequestService channelService = new ChannelRequestServiceImpl();
 
     public static void main(String... args) {
 

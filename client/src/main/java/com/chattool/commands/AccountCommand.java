@@ -2,6 +2,7 @@ package com.chattool.commands;
 
 import com.chattool.model.Account;
 import com.chattool.services.AuthenticationRequestService;
+import com.chattool.services.impl.ApplicationScopeService;
 import com.chattool.services.impl.AuthenticationRequestServiceImpl;
 import com.chattool.util.Message;
 
@@ -44,7 +45,13 @@ public class AccountCommand implements ICommandHandler
             }
 
             final Account account = authenticationRequestService.login(params[0], params[1]);
-            if(account != null) LOGGER.info(Message.LOGIN_REQUEST_SUCCESS); else LOGGER.info(Message.LOGIN_REQUEST_FAIL);
+
+            if(account != null) {
+				ApplicationScopeService.getInstance().setAccount(account);
+				LOGGER.info(Message.LOGIN_REQUEST_SUCCESS);
+			} else {
+            	LOGGER.info(Message.LOGIN_REQUEST_FAIL);
+			}
         }
         else if(command.equalsIgnoreCase("logout"))
         {

@@ -35,7 +35,7 @@ public class ChannelServiceImpl implements ChannelService {
                 .filter(c -> c.getName().equalsIgnoreCase(channel.getName()))
                 .findFirst().orElse(null);
         if(sameNameChannel != null) {
-            LOGGER.info("IMPLEMENT ME"); // TODO
+            LOGGER.warn("IMPLEMENT ME"); // TODO
             return null;
         }
 
@@ -50,11 +50,11 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public Channel join(String channelId, Account account) {
+    public Channel join(String channelName, Account account) {
 
         if(!accountingService.isLoggedIn(account)) return null;
 
-        final Channel channel = findChannel(channelId);
+        final Channel channel = findChannelByName(channelName);
         if(channel == null) return null;
 
         channel.getAccounts().add(account);
@@ -62,11 +62,11 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public void exit(String channelId, Account account) {
+    public void quit(String channelName, Account account) {
 
         if(!accountingService.isLoggedIn(account)) return;
 
-        final Channel channel = findChannel(channelId);
+        final Channel channel = findChannelByName(channelName);
         if(channel == null) return;
 
         channel.getAccounts().remove(account);
@@ -90,8 +90,16 @@ public class ChannelServiceImpl implements ChannelService {
             channel.getMessages().add(message);
 
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.error("RMI EXCEPTION : ", e);
         }
+    }
+
+    private Channel findChannelByName(String channelName) {
+        return channels
+                .stream()
+                .filter(c -> c.getName().equalsIgnoreCase(channelName))
+                .findFirst()
+                .orElse(null);
     }
 
     private Channel findChannel(String channelId) {

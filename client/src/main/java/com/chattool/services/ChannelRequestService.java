@@ -1,5 +1,6 @@
 package com.chattool.services;
 
+import com.chattool.model.Account;
 import com.chattool.model.Channel;
 
 import java.util.List;
@@ -9,9 +10,9 @@ import java.util.List;
  */
 public interface ChannelRequestService {
 
-    Channel create(Channel channel);
+    Channel join(String name, Account account);
 
-    List<Channel> getActiveChannels();
+    Channel create(Channel channel);
 
     List<Channel> retrieveAllChannels();
 }
