@@ -13,9 +13,14 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@XmlRootElement(name = "Message")
+@XmlRootElement
 public final class Message implements Serializable {
     private String id;
+    private String channelId;
     private String content;
-    private Account account;
+    private String author;
+
+    public Message(String channelId, String content, String author){
+        this("-1", channelId, content, author);
+    }
 }

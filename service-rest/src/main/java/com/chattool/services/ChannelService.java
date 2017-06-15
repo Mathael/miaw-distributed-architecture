@@ -33,12 +33,4 @@ public interface ChannelService {
      * @param account Account who want to exit from the channel
      */
     void quit(String channelName, Account account);
-
-    /**
-     *
-     * @param id The channel identifier
-     * @param messageContent
-     * @param accountId The account identifier
-     */
-    void say(String id, String messageContent, String accountId);
 }
