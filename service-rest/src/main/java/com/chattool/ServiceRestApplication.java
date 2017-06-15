@@ -5,6 +5,7 @@ import com.chattool.util.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.rmi.NotBoundException;
@@ -14,6 +15,7 @@ import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 public class ServiceRestApplication {
 
     // SLF4J Logger
@@ -49,6 +51,9 @@ public class ServiceRestApplication {
 
             // Récupération des services qui sont sur le registry
             authService = (AuthService) registry.lookup("authService");
+            if(authService == null) {
+                LOGGER.warn("authService is null..");
+            }
             //final MessageService messageService = (MessageService) registry.lookup("messageService");
 
             // Start API REST

@@ -73,6 +73,7 @@ public class AuthServiceImpl implements AuthService {
      * @param username The account username
      * @return the found account with username equals IGNORE CASE the username parameter | null otherwise
      */
+    @Override
     public Account findAccount(String username) {
         BufferedReader buffer = null;
         FileReader reader = null;

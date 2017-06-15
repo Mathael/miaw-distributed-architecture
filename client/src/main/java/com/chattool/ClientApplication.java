@@ -2,6 +2,8 @@ package com.chattool;
 
 import com.chattool.commands.CommandHandler;
 import com.chattool.commands.ICommandHandler;
+import com.chattool.services.ChannelRequestService;
+import com.chattool.services.impl.ChannelRequestImpl;
 import com.chattool.util.Message;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -29,6 +32,9 @@ public final class ClientApplication {
 
     // Client
     private static WebTarget client = null;
+
+    // Services
+    public static final ChannelRequestService channelService = new ChannelRequestImpl();
 
     public static void main(String... args) {
 
@@ -54,8 +60,11 @@ public final class ClientApplication {
                 final ICommandHandler handler = CommandHandler.getInstance().getHandler(entries[0]);
 
                 // Execute command
-                if (handler != null)
-                    handler.useCommand(entries[0], entries[1], entries[2]);
+                if (handler != null){
+                    String[] params = new String[0];
+                    if(entries.length > 1) params = Arrays.copyOfRange(entries, 1, entries.length);
+                    handler.useCommand(entries[0], params);
+                }
                 else
                     LOGGER.info(Message.UNKNOWN_COMMAND);
             }

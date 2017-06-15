@@ -6,6 +6,8 @@ import com.chattool.model.Channel;
 import com.chattool.model.Message;
 import com.chattool.services.AccountingService;
 import com.chattool.services.ChannelService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +22,26 @@ import java.util.UUID;
 @Service
 public class ChannelServiceImpl implements ChannelService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChannelServiceImpl.class);
+
     @Autowired
     private AccountingService accountingService;
 
-    private final List<Channel> channels;
+    private final List<Channel> channels = new ArrayList<>();
 
-    public ChannelServiceImpl() {
-        this.channels = new ArrayList<>();
+    public Channel create(Channel channel) {
+        final Channel sameNameChannel = channels
+                .stream()
+                .filter(c -> c.getName().equalsIgnoreCase(channel.getName()))
+                .findFirst().orElse(null);
+        if(sameNameChannel != null) {
+            LOGGER.info("IMPLEMENT ME"); // TODO
+            return null;
+        }
+
+        channel.setId(UUID.randomUUID().toString());
+        channels.add(channel);
+        return channel;
     }
 
     @Override

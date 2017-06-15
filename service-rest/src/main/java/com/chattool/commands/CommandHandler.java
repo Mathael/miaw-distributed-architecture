@@ -14,8 +14,8 @@ public class CommandHandler implements IHandler<ICommandHandler, String>
 		_handlers = new HashMap<>();
 
 		// Static handler register: bad idea but it will be nice for school project
-		registerHandler(new AccountCommand());
-		registerHandler(new ChannelCommand());
+		//registerHandler(new AccountCommand());
+		//registerHandler(new ChannelCommand());
 		//registerHandler(new ChatCommand());
 	}
 	

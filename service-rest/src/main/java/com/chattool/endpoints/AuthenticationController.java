@@ -13,19 +13,18 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(
-    value = "/chatAuthService",
-    consumes = {MediaType.APPLICATION_XML_VALUE},
-    produces = {MediaType.APPLICATION_XML_VALUE})
+    value = "/auth",
+    consumes = {MediaType.APPLICATION_JSON_VALUE},
+    produces = {MediaType.APPLICATION_JSON_VALUE})
 public class AuthenticationController {
 
     @Autowired
     private AccountingService accountingService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Account authentication(@RequestBody String username, @RequestBody String password) throws Exception {
-        Assert.hasLength(username, "parameter username is null or empty");
-        Assert.hasLength(password, "parameter password is null or empty");
-        return accountingService.login(username, password);
+    public Account authentication(@RequestBody Account account) throws Exception {
+        Assert.notNull(account, "object account is null");
+        return accountingService.login(account.getUsername(), account.getPassword());
     }
 
     @RequestMapping(value = "/logout/{id}")

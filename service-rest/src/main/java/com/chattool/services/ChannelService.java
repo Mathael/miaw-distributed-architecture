@@ -11,6 +11,12 @@ import java.util.List;
 public interface ChannelService {
 
     /**
+     * @param channel The channel to be created
+     * @return The newly created channel with an unique identifier. null if created fail.
+     */
+    Channel create(Channel channel);
+
+    /**
      * @return all existing Channels
      */
     List<Channel> findAll();
