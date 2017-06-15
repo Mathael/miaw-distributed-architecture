@@ -44,10 +44,10 @@ public final class ClientApplication {
         // Catch "exit" command
         boolean exit = false;
 
+        LOGGER.info("Tapez < help > pour voir la liste des commandes");
+
         while(!exit)
         {
-            displayHelp();
-
             // Waiting for client action: handler [params]
             // Exemple: register myusername myuserpassword
             final String userEntry = readClientInput();
@@ -93,15 +93,6 @@ public final class ClientApplication {
                 .newClient(clientConfig)
                 .register(new LoggingFeature())
                 .target(WS_RESOURCE_URI);
-    }
-
-    public static void displayHelp(){
-        LOGGER.info("-----------------------------------------------");
-        LOGGER.info("- [0] Connexion");
-        LOGGER.info("- [1] Créer un compte");
-        LOGGER.info("- [2] Déconnexion");
-        LOGGER.info("-----------------------------------------------");
-        LOGGER.info(">");
     }
 
     /**
