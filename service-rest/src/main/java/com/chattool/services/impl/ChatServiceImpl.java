@@ -5,18 +5,24 @@ import com.chattool.model.Channel;
 import com.chattool.model.Message;
 import com.chattool.services.ChannelService;
 import com.chattool.services.ChatService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author Leboc Philippe.
  */
 @Service
 public class ChatServiceImpl implements ChatService {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(ChatServiceImpl.class);
 
     @Autowired
     private ChannelService channelService;
@@ -37,7 +43,7 @@ public class ChatServiceImpl implements ChatService {
 
         if(channel == null) return false;
 
-        channel.getMessages().add(new Message(UUID.randomUUID().toString(), message.getChannelId(), message.getContent(), acc.getUsername()));
+        channel.getMessages().add(new Message(UUID.randomUUID().toString(), message.getChannelId(), message.getContent(), acc.getUsername(), System.currentTimeMillis()));
         return true;
     }
 
@@ -56,14 +62,19 @@ public class ChatServiceImpl implements ChatService {
                 .findFirst()
                 .orElse(null);
 
-        if(channel != null) {
+        if(channel != null)
+        {
             boolean startRecording = lastReadMessageId == null;
-            for (Message message : channel.getMessages()) {
-                if(startRecording || message.getId().equals(lastReadMessageId)) {
-                    startRecording = true;
-                    messages.add(message);
-                }
+            final List<Message> sortedMessagesList = channel.getMessages()
+                    .stream().sorted(Comparator.comparing(Message::getTimestamp))
+                    .collect(Collectors.toList());
+
+            for (Message message : sortedMessagesList) {
+                if(startRecording)  messages.add(message);
+                if(message.getId().equals(lastReadMessageId)) startRecording = true;
             }
+        } else {
+            LOGGER.warn("Quelqu'un essaie d'accéder au channel : " + channelId + " -> Channel is null"); // TODO
         }
         return messages;
     }

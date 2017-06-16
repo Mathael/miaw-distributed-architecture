@@ -44,10 +44,7 @@ public class ChatCommand implements ICommandHandler {
             }
 
             final boolean result = ClientApplication.chatService.say(account, new Message(channel.getId(), message.toString(), account.getUsername()));
-            if(result)
-                LOGGER.info(String.format("[%s] %s", account.getUsername(), message.toString()));
-            else
-                LOGGER.warn("Le message n'a pas pu être envoyé"); // TODO
+            if(!result) LOGGER.warn("Le message n'a pas pu être envoyé"); // TODO
         }
         return true;
     }

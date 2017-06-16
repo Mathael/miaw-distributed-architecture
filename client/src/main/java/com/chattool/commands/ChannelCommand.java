@@ -3,6 +3,7 @@ package com.chattool.commands;
 import com.chattool.ClientApplication;
 import com.chattool.model.Account;
 import com.chattool.model.Channel;
+import com.chattool.model.Message;
 import com.chattool.services.impl.ApplicationScopeService;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class ChannelCommand implements ICommandHandler {
                 LOGGER.warn("Channel not created !"); // TODO
             }
 
-            ApplicationScopeService.getInstance().setActiveChannel(channel);
+            // TODO: add client to the newly created channel and notify the client !!!
             LOGGER.info("Channel created successful !");
         }
         else if(command.equalsIgnoreCase("list"))
@@ -56,6 +57,11 @@ public class ChannelCommand implements ICommandHandler {
                 return true;
             }
 
+            if(ApplicationScopeService.getInstance().getActiveChannel() != null) {
+                LOGGER.info("Vous devez quitter le canal courant."); // TODO
+                return true;
+            }
+
             final String channelName = params[0];
             final Channel joinedChannel = ClientApplication.channelService.join(channelName, account);
 
@@ -64,8 +70,21 @@ public class ChannelCommand implements ICommandHandler {
                 return true;
             }
 
-            ApplicationScopeService.getInstance().setActiveChannel(joinedChannel);
+            final ApplicationScopeService app = ApplicationScopeService.getInstance();
+            app.setActiveChannel(joinedChannel);
             LOGGER.info("Vous entrez dans le canal " + joinedChannel.getName());
+
+            final List<Message> messages = ClientApplication.chatService.getMessages(joinedChannel.getId());
+            messages.stream()
+                    .skip(Math.max(0, messages.size() - 10))
+                    .forEach(message -> LOGGER.info(String.format("[%s] %s", message.getAuthor(), message.getContent())));
+
+            if(messages.size() >= 1){
+                final Message lastRead = messages.get(messages.size()-1);
+                app.startMessageReaderTask(lastRead.getId());
+            } else {
+                app.startMessageReaderTask(null);
+            }
         }
         else if(command.equalsIgnoreCase("quit"))
         {
@@ -74,7 +93,9 @@ public class ChannelCommand implements ICommandHandler {
                 LOGGER.info("Vous n'avez encore rejoins aucun canal");
             } else {
                 LOGGER.info("Vous avez quitté le canal " + channel.getName());
-                ApplicationScopeService.getInstance().setActiveChannel(null);
+                final ApplicationScopeService app = ApplicationScopeService.getInstance();
+                if(app.getReadMessageTask() != null) app.getReadMessageTask().interrupt();
+                app.setActiveChannel(null);
             }
         }
         return true;

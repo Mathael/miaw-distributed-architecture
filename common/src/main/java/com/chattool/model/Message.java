@@ -19,8 +19,9 @@ public final class Message implements Serializable {
     private String channelId;
     private String content;
     private String author;
+    private long timestamp;
 
     public Message(String channelId, String content, String author){
-        this("-1", channelId, content, author);
+        this("-1", channelId, content, author, System.currentTimeMillis());
     }
 }

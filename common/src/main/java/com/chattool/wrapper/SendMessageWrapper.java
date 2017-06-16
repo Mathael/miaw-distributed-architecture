@@ -1,4 +1,4 @@
-package com.chattool.wrappers;
+package com.chattool.wrapper;
 
 import com.chattool.model.Account;
 import com.chattool.model.Message;
