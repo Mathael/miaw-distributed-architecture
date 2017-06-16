@@ -12,13 +12,4 @@
         <artifactId>chattool</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-
-    <dependencies>
-        <!-- Java useful library -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.12</version>
-        </dependency>
-    </dependencies>
 </project>

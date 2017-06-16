@@ -14,12 +14,6 @@
     </parent>
 
     <dependencies>
-        <!-- Java useful library -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.12</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
         <!-- use javax.ws.rs.client -->
         <dependency>
