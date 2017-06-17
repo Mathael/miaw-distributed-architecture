@@ -37,8 +37,9 @@ public class AccountingServiceImpl implements AccountingService {
             LOGGER.info(Message.RMI_REMOTE_FAIL, e);
         }
 
-        // User has logged in : store in Online Accounts List
-        accounts.add(account);
+        // if account is already in online list, just ignore it
+        if(!isLoggedIn(account)) accounts.add(account);
+
         LOGGER.info(Message.LOGIN_REQUEST_SUCCESS);
         return account;
     }
@@ -46,7 +47,7 @@ public class AccountingServiceImpl implements AccountingService {
     @Override
     public void logout(String accountId) {
         final Account account = find(accountId);
-        accounts.remove(account);
+        if(account != null) accounts.remove(account);
     }
 
     @Override
@@ -61,5 +62,10 @@ public class AccountingServiceImpl implements AccountingService {
 
     public Account find(String accountId) {
         return accounts.stream().filter(data -> data.getId().equals(accountId)).findFirst().orElse(null);
+    }
+
+    @Override
+    public List<Account> getOnlineList() {
+        return accounts;
     }
 }

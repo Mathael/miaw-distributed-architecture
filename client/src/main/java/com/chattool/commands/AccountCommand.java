@@ -14,7 +14,8 @@ public class AccountCommand implements ICommandHandler
 	private static final String[] COMMANDS = {
 		"register",
 		"login",
-		"logout"
+		"logout",
+		"online-list"
 	};
 
     final AuthenticationRequestService authenticationRequestService = new AuthenticationRequestServiceImpl();
