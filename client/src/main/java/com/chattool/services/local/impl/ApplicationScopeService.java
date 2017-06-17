@@ -1,4 +1,4 @@
-package com.chattool.services.impl;
+package com.chattool.services.local.impl;
 
 import com.chattool.model.Account;
 import com.chattool.model.Channel;

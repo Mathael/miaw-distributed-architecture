@@ -1,6 +1,7 @@
-package com.chattool.services.impl;
+package com.chattool.services.remote.impl;
 
-import com.chattool.services.AuthService;
+import com.chattool.enums.AccountSearchType;
+import com.chattool.services.remote.AuthService;
 import com.chattool.model.Account;
 import com.chattool.util.Message;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
             return null;
         }
 
-        final Account existingAccount = findAccount(username);
+        final Account existingAccount = findAccount(username, AccountSearchType.USERNAME);
         if(existingAccount != null) {
             LOGGER.warn(Message.REGISTER_FAIL);
             return null;
@@ -53,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean remove(String username) throws RemoteException {
-        final Account account = findAccount(username);
+        final Account account = findAccount(username, AccountSearchType.USERNAME);
         if(account == null) {
             LOGGER.warn(Message.CANNOT_RETRIEVE_ACCOUNT);
             return false;
@@ -70,11 +71,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * @param username The account username
+     * @param key The account param to find by [username or identifier]
+     * @param type The search type
      * @return the found account with username equals IGNORE CASE the username parameter | null otherwise
      */
     @Override
-    public Account findAccount(String username) {
+    public Account findAccount(String key, AccountSearchType type) {
         BufferedReader buffer = null;
         FileReader reader = null;
         Account account = null;
@@ -89,9 +91,10 @@ public class AuthServiceImpl implements AuthService {
                 // username:password
                 String[] items = line.split(":");
 
-                if(username.equalsIgnoreCase(items[1])) {
-                    account = new Account(items[0], items[1],items[2]);
-                }
+                if(type == AccountSearchType.ID)
+                    account = findById(key, items);
+                else
+                    account = findByUsername(key, items);
             }
 
         } catch (IOException e) {
@@ -106,5 +109,17 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return account;
+    }
+
+    private Account findByUsername(String username, String[] data) {
+        if(username.equalsIgnoreCase(data[1]))
+            return new Account(data[0], data[1], data[2]);
+        return null;
+    }
+
+    private Account findById(String id, String[] data) {
+        if(id.equals(data[0]))
+            return new Account(data[0], data[1], data[2]);
+        return null;
     }
 }

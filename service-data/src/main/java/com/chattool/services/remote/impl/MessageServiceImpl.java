@@ -1,6 +1,6 @@
-package com.chattool.services.impl;
+package com.chattool.services.remote.impl;
 
-import com.chattool.services.MessageService;
+import com.chattool.services.remote.MessageService;
 import com.chattool.model.Account;
 
 import java.rmi.RemoteException;

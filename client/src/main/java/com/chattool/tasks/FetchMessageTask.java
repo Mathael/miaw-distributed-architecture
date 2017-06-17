@@ -2,7 +2,7 @@ package com.chattool.tasks;
 
 import com.chattool.ClientApplication;
 import com.chattool.model.Message;
-import com.chattool.services.impl.ApplicationScopeService;
+import com.chattool.services.local.impl.ApplicationScopeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

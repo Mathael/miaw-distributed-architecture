@@ -1,8 +1,8 @@
-package com.chattool.services.impl;
+package com.chattool.services.local.impl;
 
 import com.chattool.ServiceRestApplication;
 import com.chattool.model.Account;
-import com.chattool.services.AccountingService;
+import com.chattool.services.local.AccountingService;
 import com.chattool.util.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +22,7 @@ public class AccountingServiceImpl implements AccountingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountingServiceImpl.class);
 
+    // Online clients
     private final List<Account> accounts = new ArrayList<>();
 
     @Override
@@ -29,6 +30,9 @@ public class AccountingServiceImpl implements AccountingService {
         Account account = null;
         try {
             account = ServiceRestApplication.authService.findAccount(username);
+
+            // retrieve friends
+            ServiceRestApplication.friendService.getFriends(account);
 
             if(account == null || !account.getPassword().equals(password)) {
                 LOGGER.warn(Message.LOGIN_REQUEST_FAIL);

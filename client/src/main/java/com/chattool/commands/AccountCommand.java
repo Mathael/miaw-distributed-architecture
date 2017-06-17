@@ -2,8 +2,8 @@ package com.chattool.commands;
 
 import com.chattool.model.Account;
 import com.chattool.services.AuthenticationRequestService;
-import com.chattool.services.impl.ApplicationScopeService;
-import com.chattool.services.impl.AuthenticationRequestServiceImpl;
+import com.chattool.services.local.impl.ApplicationScopeService;
+import com.chattool.services.local.impl.AuthenticationRequestServiceImpl;
 import com.chattool.util.Message;
 
 /**

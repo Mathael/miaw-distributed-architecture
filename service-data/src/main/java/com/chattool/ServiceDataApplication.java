@@ -1,9 +1,9 @@
 package com.chattool;
 
-import com.chattool.services.AuthService;
-import com.chattool.services.MessageService;
-import com.chattool.services.impl.AuthServiceImpl;
-import com.chattool.services.impl.MessageServiceImpl;
+import com.chattool.services.remote.AuthService;
+import com.chattool.services.remote.FriendService;
+import com.chattool.services.remote.impl.AuthServiceImpl;
+import com.chattool.services.remote.impl.FriendServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,11 +30,11 @@ public final class ServiceDataApplication {
 
             // Export des services
             final AuthService authService = (AuthService) UnicastRemoteObject.exportObject(new AuthServiceImpl(), 0);
-            final MessageService messageService = (MessageService) UnicastRemoteObject.exportObject(new MessageServiceImpl(), 0);
+            final FriendService friendService = (FriendService) UnicastRemoteObject.exportObject(new FriendServiceImpl(), 0);
 
             // Liaison des services à des nom spécifiques afin de les récupérer
             registry.rebind("authService", authService);
-            registry.rebind("messageService", messageService);
+            registry.rebind("friendService", friendService);
 
             LOGGER.info("Server listening on 127.0.0.1:" + REGISTRY_PORT);
         }

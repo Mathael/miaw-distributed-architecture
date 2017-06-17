@@ -18,6 +18,7 @@ public class CommandHandler implements IHandler<ICommandHandler, String>
 		registerHandler(new ChannelCommand());
 		registerHandler(new ChatCommand());
 		registerHandler(new HelpCommand());
+		registerHandler(new SocialCommand());
 	}
 	
 	@Override

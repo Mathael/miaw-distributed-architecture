@@ -1,10 +1,10 @@
-package com.chattool.services.impl;
+package com.chattool.services.local.impl;
 
 import com.chattool.model.Account;
 import com.chattool.model.Channel;
 import com.chattool.model.Message;
-import com.chattool.services.ChannelService;
-import com.chattool.services.ChatService;
+import com.chattool.services.local.ChannelService;
+import com.chattool.services.local.ChatService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

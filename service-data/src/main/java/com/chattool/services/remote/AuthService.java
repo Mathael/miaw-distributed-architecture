@@ -1,5 +1,6 @@
-package com.chattool.services;
+package com.chattool.services.remote;
 
+import com.chattool.enums.AccountSearchType;
 import com.chattool.model.Account;
 
 import java.rmi.Remote;
@@ -30,5 +31,5 @@ public interface AuthService extends Remote {
      * @return The corresponding account if found, null otherwise
      * @throws RemoteException
      */
-    Account findAccount(String username) throws RemoteException;
+    Account findAccount(String username, AccountSearchType type) throws RemoteException;
 }

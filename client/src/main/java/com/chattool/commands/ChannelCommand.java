@@ -4,7 +4,7 @@ import com.chattool.ClientApplication;
 import com.chattool.model.Account;
 import com.chattool.model.Channel;
 import com.chattool.model.Message;
-import com.chattool.services.impl.ApplicationScopeService;
+import com.chattool.services.local.impl.ApplicationScopeService;
 
 import java.util.List;
 

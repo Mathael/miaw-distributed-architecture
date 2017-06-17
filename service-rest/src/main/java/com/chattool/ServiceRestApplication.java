@@ -1,6 +1,7 @@
 package com.chattool;
 
-import com.chattool.services.AuthService;
+import com.chattool.services.remote.AuthService;
+import com.chattool.services.remote.FriendService;
 import com.chattool.util.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ public class ServiceRestApplication {
     private static final Scanner terminal = new Scanner(System.in);
 
     public static AuthService authService = null;
+    public static FriendService friendService = null;
 
 	public static void main(String[] args) {
         try
@@ -52,37 +54,18 @@ public class ServiceRestApplication {
             // Récupération des services qui sont sur le registry
             authService = (AuthService) registry.lookup("authService");
             if(authService == null) {
-                LOGGER.warn("authService is null..");
+                LOGGER.warn("authService is null...");
             }
+
+            friendService = (FriendService) registry.lookup("friendService");
+            if(friendService == null) {
+                LOGGER.warn("friendService is null...");
+            }
+
             //final MessageService messageService = (MessageService) registry.lookup("messageService");
 
             // Start API REST
             SpringApplication.run(ServiceRestApplication.class, args);
-
-            // Start terminal mode to handle administration
-            // TODO: change me
-
-            LOGGER.info("-----------------------------------------------");
-            LOGGER.info("-\t[1] Afficher cette aide");
-            LOGGER.info("-\t[2] Création d'un compte");
-            LOGGER.info("-\t[3] Suppression d'un compte");
-            LOGGER.info("-----------------------------------------------");
-            System.out.print(">");
-
-            while(true) {
-                final String[] entry = readClientInput().split(":");
-                final String choice = entry[0];
-                switch (choice) {
-                    case "1":
-                        break;
-                    case "2":
-                        authService.register(entry[1], entry[2]);
-                        break;
-                    case "3":
-                        authService.remove(entry[1]);
-                        break;
-                }
-            }
         }
         catch (RemoteException | NotBoundException | ClassCastException e)
         {

@@ -2,7 +2,7 @@ package com.chattool.endpoints;
 
 import com.chattool.model.Account;
 import com.chattool.model.Channel;
-import com.chattool.services.ChannelService;
+import com.chattool.services.local.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

@@ -2,7 +2,7 @@ package com.chattool.endpoints;
 
 import com.chattool.ServiceRestApplication;
 import com.chattool.model.Account;
-import com.chattool.services.AccountingService;
+import com.chattool.services.local.AccountingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;

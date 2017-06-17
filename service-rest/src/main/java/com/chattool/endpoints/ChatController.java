@@ -1,7 +1,7 @@
 package com.chattool.endpoints;
 
 import com.chattool.model.Message;
-import com.chattool.services.ChatService;
+import com.chattool.services.local.ChatService;
 import com.chattool.wrapper.SendMessageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
