@@ -6,7 +6,7 @@ import com.chattool.services.ChannelRequestService;
 import com.chattool.services.ChatRequestService;
 import com.chattool.services.local.impl.ChannelRequestServiceImpl;
 import com.chattool.services.local.impl.ChatRequestServiceImpl;
-import com.chattool.util.Message;
+import com.chattool.util.SystemMessage;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -69,7 +69,7 @@ public final class ClientApplication {
                     handler.useCommand(entries[0], params);
                 }
                 else
-                    LOGGER.info(Message.UNKNOWN_COMMAND);
+                    LOGGER.info(SystemMessage.UNKNOWN_COMMAND);
             }
         }
     }

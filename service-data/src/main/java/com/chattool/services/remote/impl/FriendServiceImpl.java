@@ -2,7 +2,7 @@ package com.chattool.services.remote.impl;
 
 import com.chattool.model.Account;
 import com.chattool.services.remote.FriendService;
-import com.chattool.util.Message;
+import com.chattool.util.SystemMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,10 +34,10 @@ public class FriendServiceImpl implements FriendService {
 
             // Store friend username in Account class
             account.getFriends().add(friendAccount.getUsername());
-            // LOGGER.info(Message.FRIEND_ADDED_SUCCESSFUL);
+            // LOGGER.info(SystemMessage.FRIEND_ADDED_SUCCESSFUL);
         } catch (Exception e) {
             if (writer != null) writer.close();
-            LOGGER.error(Message.FILE_EXCEPTION, e);
+            LOGGER.error(SystemMessage.FILE_EXCEPTION, e);
         }
 
         return account;
@@ -65,7 +65,7 @@ public class FriendServiceImpl implements FriendService {
             }
 
         } catch (IOException e) {
-            LOGGER.error(Message.FILE_EXCEPTION_READ_FILE, e);
+            LOGGER.error(SystemMessage.FILE_EXCEPTION_READ_FILE, e);
         } finally {
             try {
                 if (buffer != null) buffer.close();

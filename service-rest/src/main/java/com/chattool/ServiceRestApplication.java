@@ -2,7 +2,7 @@ package com.chattool;
 
 import com.chattool.services.remote.AuthService;
 import com.chattool.services.remote.FriendService;
-import com.chattool.util.Message;
+import com.chattool.util.SystemMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -43,11 +43,11 @@ public class ServiceRestApplication {
             }
 
             // Registry connection
-            LOGGER.info(String.format("%s %s : %s", Message.REGISTRY_LOCATE, REGISTRY_HOST, REGISTRY_PORT));
+            LOGGER.info(String.format("%s %s : %s", SystemMessage.REGISTRY_LOCATE, REGISTRY_HOST, REGISTRY_PORT));
             final Registry registry = LocateRegistry.getRegistry(REGISTRY_HOST, REGISTRY_PORT);
 
             if(registry == null) {
-                LOGGER.error(Message.REGISTRY_CANNOT_BE_LOCATED);
+                LOGGER.error(SystemMessage.REGISTRY_CANNOT_BE_LOCATED);
                 throw new RemoteException();
             }
 

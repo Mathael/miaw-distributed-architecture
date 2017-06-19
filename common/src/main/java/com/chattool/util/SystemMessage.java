@@ -3,7 +3,7 @@ package com.chattool.util;
 /**
  * @author Leboc Philippe.
  */
-public class Message {
+public class SystemMessage {
     // RMI
     public static final String RMI_REMOTE_FAIL = "RMI Remote exception";
 

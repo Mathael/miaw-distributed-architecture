@@ -3,7 +3,7 @@ package com.chattool.services.remote.impl;
 import com.chattool.enums.AccountSearchType;
 import com.chattool.services.remote.AuthService;
 import com.chattool.model.Account;
-import com.chattool.util.Message;
+import com.chattool.util.SystemMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,13 +27,13 @@ public class AuthServiceImpl implements AuthService {
 
         // Security
         if(username.indexOf(':') != -1 || password.indexOf(':') != -1) {
-            LOGGER.warn(Message.REGISTRATION_FAIL_ILLEGAL_CHARACTER);
+            LOGGER.warn(SystemMessage.REGISTRATION_FAIL_ILLEGAL_CHARACTER);
             return null;
         }
 
         final Account existingAccount = findAccount(username, AccountSearchType.USERNAME);
         if(existingAccount != null) {
-            LOGGER.warn(Message.REGISTER_FAIL);
+            LOGGER.warn(SystemMessage.REGISTER_FAIL);
             return null;
         }
 
@@ -44,10 +44,10 @@ public class AuthServiceImpl implements AuthService {
             writer = new PrintWriter(new FileOutputStream(ACCOUNTS_FILE_PATH, true));
             writer.println(String.format("%s:%s:%s", account.getId(), account.getUsername(), account.getPassword()));
             writer.close();
-            LOGGER.info(Message.REGISTER_SUCCESS);
+            LOGGER.info(SystemMessage.REGISTER_SUCCESS);
         } catch (Exception e) {
             if(writer != null) writer.close();
-            LOGGER.error(Message.FILE_EXCEPTION, e);
+            LOGGER.error(SystemMessage.FILE_EXCEPTION, e);
         }
         return account;
     }
@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
     public boolean remove(String username) throws RemoteException {
         final Account account = findAccount(username, AccountSearchType.USERNAME);
         if(account == null) {
-            LOGGER.warn(Message.CANNOT_RETRIEVE_ACCOUNT);
+            LOGGER.warn(SystemMessage.CANNOT_RETRIEVE_ACCOUNT);
             return false;
         }
 
@@ -98,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
             }
 
         } catch (IOException e) {
-            LOGGER.error(Message.FILE_EXCEPTION_READ_FILE, e);
+            LOGGER.error(SystemMessage.FILE_EXCEPTION_READ_FILE, e);
         } finally {
             try {
                 if(buffer != null) buffer.close();

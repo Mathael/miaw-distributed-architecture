@@ -3,7 +3,7 @@ package com.chattool.services.local.impl;
 import com.chattool.ServiceRestApplication;
 import com.chattool.model.Account;
 import com.chattool.services.local.AccountingService;
-import com.chattool.util.Message;
+import com.chattool.util.SystemMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,16 +35,16 @@ public class AccountingServiceImpl implements AccountingService {
             ServiceRestApplication.friendService.getFriends(account);
 
             if(account == null || !account.getPassword().equals(password)) {
-                LOGGER.warn(Message.LOGIN_REQUEST_FAIL);
+                LOGGER.warn(SystemMessage.LOGIN_REQUEST_FAIL);
             }
         } catch (RemoteException e) {
-            LOGGER.info(Message.RMI_REMOTE_FAIL, e);
+            LOGGER.info(SystemMessage.RMI_REMOTE_FAIL, e);
         }
 
         // if account is already in online list, just ignore it
         if(!isLoggedIn(account)) accounts.add(account);
 
-        LOGGER.info(Message.LOGIN_REQUEST_SUCCESS);
+        LOGGER.info(SystemMessage.LOGIN_REQUEST_SUCCESS);
         return account;
     }
 
