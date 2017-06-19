@@ -1,5 +1,9 @@
 package com.chattool.commands;
 
+import com.chattool.ClientApplication;
+import com.chattool.model.Account;
+import com.chattool.services.local.impl.ApplicationScopeService;
+
 /**
  * @author Leboc Philippe.
  */
@@ -17,14 +21,26 @@ public class SocialCommand implements ICommandHandler {
     @Override
     public boolean useCommand(String command, String... params) {
 
+        final Account account = ApplicationScopeService.getInstance().getAccount();
+
+        if(account == null) {
+            LOGGER.info("You are not logged in !");
+            return true;
+        }
 
         if(command.equalsIgnoreCase("online-list"))
         {
-            // TODO:
+            ClientApplication
+                .socialService
+                .getOnlineList()
+                .forEach(LOGGER::info);
         }
         else if(command.equalsIgnoreCase("online-friends"))
         {
-            // TODO:
+            ClientApplication
+                    .socialService
+                    .showOnlineFriends(account)
+                    .forEach(LOGGER::info);
         }
         else if(command.equalsIgnoreCase("request-friend"))
         {

@@ -4,6 +4,7 @@ import com.chattool.model.Account;
 import com.chattool.services.local.AccountingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,17 +40,17 @@ public class SocialController {
     }
 
     @RequestMapping(value = "/friend/{id}/request", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public boolean sendFriendRequest(Account account) {
+    public boolean sendFriendRequest(@RequestBody Account account) {
         return false;
     }
 
     @RequestMapping(value = "/friend/{id}/accept", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public boolean acceptFriendRequest(Account account) {
+    public boolean acceptFriendRequest(@RequestBody Account account) {
         return false;
     }
 
     @RequestMapping(value = "/friend/{id}/deny", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public boolean denyFriendRequest(Account account) {
+    public boolean denyFriendRequest(@RequestBody Account account) {
         return false;
     }
 }
