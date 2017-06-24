@@ -13,7 +13,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Scanner;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -25,9 +24,6 @@ public class ServiceRestApplication {
     // Registry params
     private static String REGISTRY_HOST = "127.0.0.1";
     private static int REGISTRY_PORT = 2000;
-
-    // Terminal inputs
-    private static final Scanner terminal = new Scanner(System.in);
 
     public static AuthService authService = null;
     public static FriendService friendService = null;
@@ -62,6 +58,7 @@ public class ServiceRestApplication {
                 LOGGER.warn("friendService is null...");
             }
 
+            // TODO: retrieve messages history
             //final MessageService messageService = (MessageService) registry.lookup("messageService");
 
             // Start API REST
@@ -71,12 +68,5 @@ public class ServiceRestApplication {
         {
             LOGGER.error("Catching RMI Exception: ", e);
         }
-    }
-
-    /**
-     * @return ask user to write somethings and return the entire line
-     */
-    public static String readClientInput() {
-        return terminal.nextLine();
     }
 }
