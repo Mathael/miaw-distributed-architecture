@@ -22,6 +22,7 @@ public class ChatController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public boolean sendMessage(@RequestBody SendMessageWrapper wrapper) {
+        Assert.notNull(wrapper, "object wrapper is null");
         return chatService.say(wrapper.getAccount(), wrapper.getMessage());
     }
 

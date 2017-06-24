@@ -2,6 +2,7 @@ package com.chattool.endpoints;
 
 import com.chattool.model.Account;
 import com.chattool.services.local.AccountingService;
+import com.chattool.services.local.SocialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,9 @@ public class SocialController {
     @Autowired
     private AccountingService accountingService;
 
+    @Autowired
+    private SocialService socialService;
+
     @RequestMapping(value = "/online", method = RequestMethod.GET)
     public List<String> showOnlineList() {
         return accountingService.getOnlineList().stream().map(Account::getUsername).collect(Collectors.toList());
@@ -40,9 +44,11 @@ public class SocialController {
     }
 
     @RequestMapping(value = "/friend/{id}/request", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public boolean sendFriendRequest(@RequestBody Account account) {
-        return false;
+    public boolean sendFriendRequest(@RequestParam(value = "id") String id, @RequestBody Account account) {
+        return socialService.sendFriendRequest(id, account);
     }
+
+    // TODO: send friendrequest list
 
     @RequestMapping(value = "/friend/{id}/accept", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public boolean acceptFriendRequest(@RequestBody Account account) {

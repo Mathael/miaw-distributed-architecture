@@ -5,6 +5,7 @@ import com.chattool.model.Account;
 import com.chattool.model.Channel;
 import com.chattool.model.Message;
 import com.chattool.services.local.impl.ApplicationScopeService;
+import com.chattool.util.SystemMessage;
 
 /**
  * @author Leboc Philippe.
@@ -21,19 +22,19 @@ public class ChatCommand implements ICommandHandler {
         final Account account = ApplicationScopeService.getInstance().getAccount();
 
         if(account == null) {
-            LOGGER.error("Your are not connected"); // TODO
+            LOGGER.error(SystemMessage.YOU_ARE_NOT_CONNECTED);
             return true;
         }
 
         if(command.equalsIgnoreCase("say")) {
             if(params.length < 1) {
-                LOGGER.warn("Vous devez spécifier un message"); // TODO
+                LOGGER.warn(SystemMessage.YOU_MUST_WRITE_A_MESSAGE);
                 return true;
             }
 
             final Channel channel = ApplicationScopeService.getInstance().getActiveChannel();
             if(channel == null) {
-                LOGGER.warn("Vous devez rejoindre un cannal pour écrire un message"); // TODO
+                LOGGER.warn(SystemMessage.YOU_MUST_JOIN_A_CHANNEL_TO_WRITE_A_MESSAGE);
                 return true;
             }
 
@@ -44,7 +45,7 @@ public class ChatCommand implements ICommandHandler {
             }
 
             final boolean result = ClientApplication.chatService.say(account, new Message(channel.getId(), message.toString(), account.getUsername()));
-            if(!result) LOGGER.warn("Le message n'a pas pu être envoyé"); // TODO
+            if(!result) LOGGER.warn(SystemMessage.THE_MESSAGE_WASNT_SENT);
         }
         return true;
     }

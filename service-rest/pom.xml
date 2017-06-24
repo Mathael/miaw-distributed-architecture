@@ -29,14 +29,6 @@
     </properties>
 
     <dependencies>
-        <!--
-        Spring Actuator permet d'avoir un retour sur l'application grâce à des Endpoints généré par Spring.
-        C'est utile en mode dev, je laisse la dépendance lors du rendu du projet dans le cas où ça intéresserait notre professeur ;)
-         -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
         <!-- Spring boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

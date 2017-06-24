@@ -10,27 +10,14 @@ public interface ICommandHandler {
     Logger LOGGER = LoggerFactory.getLogger(ICommandHandler.class);
 
     /**
-     * this is the worker method that is called when someone uses an admin command.
-     * @param command
-     * @param params
-     * @return command success
+     * @param command   The command to be registered
+     * @param params    All the params added to the command
+     * @return
      */
     boolean useCommand(String command, String... params);
 
     /**
-     * this method is called at initialization to register all the item ids automatically
-     * @return all known itemIds
+     * @return  All the command list affected to the current Handler
      */
     String[] getCommandList();
-
-
-    /**
-     * @param value The numeric value as string
-     * @return The numeric value as Integer type
-     */
-    default int tryParseInt(String value) {
-        int number;
-        try { number = Integer.parseInt(value); } catch(NumberFormatException nfe) { number = 0; }
-        return number;
-    }
 }

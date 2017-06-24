@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,6 +23,16 @@ public class FriendServiceImpl implements FriendService {
 
     // Data file
     private static final String FRIENDS_FILE_PATH = "friends.txt";
+
+    public FriendServiceImpl() {
+        final File file = new File(FRIENDS_FILE_PATH);
+        try
+        {
+            if(!file.exists() && file.createNewFile()) LOGGER.info("New file has been created to store friends data.");
+        } catch (IOException e) {
+            LOGGER.error("Catch error when trying to create file", e);
+        }
+    }
 
     @Override
     public Account saveNewFriend(Account account, Account friendAccount) {

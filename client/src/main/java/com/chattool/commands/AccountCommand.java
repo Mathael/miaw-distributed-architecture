@@ -26,7 +26,7 @@ public class AccountCommand implements ICommandHandler
 		if(command.equalsIgnoreCase("register"))
 		{
             if(params.length != 2) {
-                LOGGER.info(SystemMessage.COMMAND_WRONG_PARAMETERS);
+                LOGGER.info(SystemMessage.BAD_PARAMETERS);
                 LOGGER.info("Utilisation:\nregister username password");
                 return true;
             }
@@ -40,7 +40,7 @@ public class AccountCommand implements ICommandHandler
 		else if(command.equalsIgnoreCase("login"))
 		{
 		    if(params.length != 2) {
-		        LOGGER.info(SystemMessage.COMMAND_WRONG_PARAMETERS);
+		        LOGGER.info(SystemMessage.BAD_PARAMETERS);
 		        LOGGER.info("Utilisation:\nlogin username password");
 		        return true;
             }
@@ -56,7 +56,7 @@ public class AccountCommand implements ICommandHandler
         }
         else if(command.equalsIgnoreCase("logout"))
         {
-		    LOGGER.warn("Implement me");
+		    LOGGER.warn("Not implemented yet");
         }
 		return true;
 	}

@@ -28,6 +28,20 @@ public class SystemMessage {
     public static final String CANNOT_RETRIEVE_ACCOUNT = "Cannot retrieve account";
 
     // Commands
-    public static final String UNKNOWN_COMMAND = "Commande inconnue. Veuillez reessayer.";
-    public static final String COMMAND_WRONG_PARAMETERS = "Le nombre de paramètres ou le format n'est pas valide";
+    public static final String UNKNOWN_COMMAND = "Commande inconnue. Veuillez reessayer";
+    public static final String YOU_ARE_NOT_CONNECTED = "Vous n'êtes pas connecté";
+    public static final String BAD_PARAMETERS = "Nombre de paramètres incorrect";
+
+    // Messages commands
+    public static final String YOU_MUST_WRITE_A_MESSAGE = "Vous devez spécifier un message";
+    public static final String YOU_MUST_JOIN_A_CHANNEL_TO_WRITE_A_MESSAGE = "Vous devez rejoindre un cannal pour écrire un message";
+    public static final String THE_MESSAGE_WASNT_SENT = "Le message n'a pas pu être envoyé";
+
+    // Channel commands
+    public static final String CHANNEL_NOT_CREATED = "Le cannal n'a pas été créé !";
+    public static final String CHANNEL_CREATED_SUCCESSFUL = "Le cannal à été créé avec succès !";
+    public static final String YOU_MUST_LEAVE_THE_CURRENT_CHANNEL = "Vous devez quitter le canal courant";
+    public static final String NO_CHANNEL_FOUND = "Aucun canal de discussion n'est disponible";
+    public static final String JOIN_FAILED = "L'action a échoué";
+    public static final String YOU_MUST_JOIN_A_CHANNEL = "Vous vous devez rejoindre un canal pour effectuer cette action";
 }

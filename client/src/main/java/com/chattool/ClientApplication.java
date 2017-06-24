@@ -104,7 +104,7 @@ public final class ClientApplication {
     /**
      * @return ask user to write somethings and return the entire line
      */
-    public static String readClientInput() {
+    private static String readClientInput() {
         return terminal.nextLine();
     }
 }

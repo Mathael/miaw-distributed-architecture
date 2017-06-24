@@ -5,6 +5,7 @@ import com.chattool.model.Account;
 import com.chattool.model.Channel;
 import com.chattool.model.Message;
 import com.chattool.services.local.impl.ApplicationScopeService;
+import com.chattool.util.SystemMessage;
 
 import java.util.List;
 
@@ -25,40 +26,43 @@ public class ChannelCommand implements ICommandHandler {
         final Account account = ApplicationScopeService.getInstance().getAccount();
 
         if(account == null) {
-            LOGGER.error("Your are not connected");
+            LOGGER.error(SystemMessage.YOU_ARE_NOT_CONNECTED);
             return true;
         }
 
         if(command.equalsIgnoreCase("create"))
         {
             if(params.length != 1) {
-                LOGGER.warn("Creation parameter count error"); // TODO
+                LOGGER.warn(SystemMessage.BAD_PARAMETERS);
                 return true;
             }
 
             final Channel channel = ClientApplication.channelService.create(new Channel(params[0]));
             if(channel == null) {
-                LOGGER.warn("Channel not created !"); // TODO
+                LOGGER.warn(SystemMessage.CHANNEL_NOT_CREATED);
             }
 
-            // TODO: add client to the newly created channel and notify the client !!!
-            LOGGER.info("Channel created successful !");
+            // TODO: add client to the newly created channel and notify the client !
+            LOGGER.info(SystemMessage.CHANNEL_CREATED_SUCCESSFUL);
         }
         else if(command.equalsIgnoreCase("list"))
         {
-            LOGGER.info("Liste des cannaux disponible :"); // TODO
+            LOGGER.info("Liste des cannaux disponible :");
             final List<Channel> channels = ClientApplication.channelService.retrieveAllChannels();
-            channels.forEach(c -> LOGGER.info("\t"+c.getName()));
+            if(!channels.isEmpty())
+                channels.forEach(c -> LOGGER.info("\t"+c.getName()));
+            else
+                LOGGER.info(SystemMessage.NO_CHANNEL_FOUND);
         }
         else if(command.equalsIgnoreCase("join"))
         {
             if(params.length != 1) {
-                LOGGER.warn("Bad parameters"); // TODO
+                LOGGER.warn(SystemMessage.BAD_PARAMETERS);
                 return true;
             }
 
             if(ApplicationScopeService.getInstance().getActiveChannel() != null) {
-                LOGGER.info("Vous devez quitter le canal courant."); // TODO
+                LOGGER.info(SystemMessage.YOU_MUST_LEAVE_THE_CURRENT_CHANNEL);
                 return true;
             }
 
@@ -66,7 +70,7 @@ public class ChannelCommand implements ICommandHandler {
             final Channel joinedChannel = ClientApplication.channelService.join(channelName, account);
 
             if(joinedChannel == null){
-                LOGGER.warn("Join failed"); // TODO
+                LOGGER.warn(SystemMessage.JOIN_FAILED);
                 return true;
             }
 
@@ -90,7 +94,7 @@ public class ChannelCommand implements ICommandHandler {
         {
             final Channel channel = ApplicationScopeService.getInstance().getActiveChannel();
             if(channel == null) {
-                LOGGER.info("Vous n'avez encore rejoins aucun canal");
+                LOGGER.info(SystemMessage.YOU_MUST_JOIN_A_CHANNEL);
             } else {
                 LOGGER.info("Vous avez quitté le canal " + channel.getName());
                 final ApplicationScopeService app = ApplicationScopeService.getInstance();

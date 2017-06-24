@@ -22,6 +22,17 @@ public class AuthServiceImpl implements AuthService {
     // Data file
     private static final String ACCOUNTS_FILE_PATH = "accounts.txt";
 
+    public AuthServiceImpl() {
+        final File file = new File(ACCOUNTS_FILE_PATH);
+
+        try
+        {
+            if(!file.exists() && file.createNewFile()) LOGGER.info("New file has been created to store account data.");
+        } catch (IOException e) {
+            LOGGER.error("Catch error when trying to create file", e);
+        }
+    }
+
     @Override
     public Account register(String username, String password) {
 

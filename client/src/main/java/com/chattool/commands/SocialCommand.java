@@ -3,6 +3,7 @@ package com.chattool.commands;
 import com.chattool.ClientApplication;
 import com.chattool.model.Account;
 import com.chattool.services.local.impl.ApplicationScopeService;
+import com.chattool.util.SystemMessage;
 
 /**
  * @author Leboc Philippe.
@@ -24,12 +25,13 @@ public class SocialCommand implements ICommandHandler {
         final Account account = ApplicationScopeService.getInstance().getAccount();
 
         if(account == null) {
-            LOGGER.info("You are not logged in !");
+            LOGGER.info(SystemMessage.YOU_ARE_NOT_CONNECTED);
             return true;
         }
 
         if(command.equalsIgnoreCase("online-list"))
         {
+            LOGGER.info("================== Online ==================");
             ClientApplication
                 .socialService
                 .getOnlineList()
@@ -37,6 +39,7 @@ public class SocialCommand implements ICommandHandler {
         }
         else if(command.equalsIgnoreCase("online-friends"))
         {
+            LOGGER.info("============== Online Friends ==============");
             ClientApplication
                     .socialService
                     .showOnlineFriends(account)

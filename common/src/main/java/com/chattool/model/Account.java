@@ -27,4 +27,9 @@ public final class Account implements Serializable {
     public Account(String id, String username, String password) {
         this(id, username, password, new ArrayList<>());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof Account) && ((Account) o).getId().equals(getId());
+    }
 }

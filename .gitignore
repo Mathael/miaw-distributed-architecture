@@ -1,5 +1,6 @@
 .idea
 out
 accounts.txt
+friends.txt
 *.iml
 *.class

@@ -1,6 +1,7 @@
 package com.chattool.services.local.impl;
 
 import com.chattool.ServiceRestApplication;
+import com.chattool.enums.AccountSearchType;
 import com.chattool.model.Account;
 import com.chattool.services.local.AccountingService;
 import com.chattool.util.SystemMessage;
@@ -9,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * @author Leboc Philippe.
@@ -22,14 +22,14 @@ public class AccountingServiceImpl implements AccountingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountingServiceImpl.class);
 
-    // Online clients
-    private final List<Account> accounts = new ArrayList<>();
+    // Online clients are stored here
+    private final ConcurrentLinkedDeque<Account> accounts = new ConcurrentLinkedDeque<>();
 
     @Override
     public Account login(String username, String password) {
         Account account = null;
         try {
-            account = ServiceRestApplication.authService.findAccount(username);
+            account = ServiceRestApplication.authService.findAccount(username, AccountSearchType.USERNAME);
 
             // retrieve friends
             ServiceRestApplication.friendService.getFriends(account);
@@ -69,7 +69,7 @@ public class AccountingServiceImpl implements AccountingService {
     }
 
     @Override
-    public List<Account> getOnlineList() {
-        return accounts;
+    public ConcurrentLinkedDeque<Account> getOnlineList() {
+        return new ConcurrentLinkedDeque<>(accounts);
     }
 }
