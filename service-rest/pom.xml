@@ -3,10 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Projet Spring boot généré via http://start.spring.io -->
-    <!-- Java EE 7 est fortement inspiré de Spring, celui-ci convient donc tout à fait au projet -->
-    <!-- M. Schwab nous a autorisé à utiliser ce Framework à la place de JEE 7 -->
-
     <groupId>com.chattool</groupId>
     <artifactId>service-rest</artifactId>
     <version>0.0.1-SNAPSHOT</version>

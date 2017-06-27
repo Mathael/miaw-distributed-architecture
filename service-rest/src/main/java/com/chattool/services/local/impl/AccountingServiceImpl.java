@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 /**
  * @author Leboc Philippe.
  * Use it with @Autowired dependency injection.
- * Note: This service is a Singleton
+ * Note: A service is a Singleton
  */
 @Service
 public class AccountingServiceImpl implements AccountingService {
