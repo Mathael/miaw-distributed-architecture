@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.util.Assert;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -49,9 +50,7 @@ public class ServiceRestApplication {
 
             // Récupération des services qui sont sur le registry
             authService = (AuthService) registry.lookup("authService");
-            if(authService == null) {
-                LOGGER.warn("authService is null...");
-            }
+            Assert.notNull(authService,"authService is null...");
 
             friendService = (FriendService) registry.lookup("friendService");
             if(friendService == null) {

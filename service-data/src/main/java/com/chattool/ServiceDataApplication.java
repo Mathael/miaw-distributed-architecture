@@ -36,7 +36,7 @@ public final class ServiceDataApplication {
             registry.rebind("authService", authService);
             registry.rebind("friendService", friendService);
 
-            LOGGER.info("Server listening on 127.0.0.1:" + REGISTRY_PORT);
+            LOGGER.info("Server listening on port :" + REGISTRY_PORT);
         }
         catch (RemoteException e)
         {
